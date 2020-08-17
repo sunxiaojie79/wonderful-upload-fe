@@ -10,14 +10,18 @@
     "test": "jest"
   },
   "dependencies": {
+    "@nuxtjs/proxy": "^2.0.1",
     "element-ui": "^2.13.2",
-    "nuxt": "^2.14.0"
+    "nuxt": "^2.14.0",
+    "svg-captcha": "^1.4.0"
   },
   "devDependencies": {
     "@vue/test-utils": "^1.0.3",
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "^26.1.0",
     "jest": "^26.1.0",
+    "stylus": "^0.54.8",
+    "stylus-loader": "^3.0.2",
     "vue-jest": "^3.0.4"
   }
 }

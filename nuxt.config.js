@@ -52,6 +52,8 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
+    // '@nuxtjs/axios',
+    '@nuxtjs/proxy'
   ],
   /*
   ** Build configuration
@@ -59,5 +61,14 @@ export default {
   */
   build: {
     transpile: [/^element-ui/],
+  },
+  proxy: {
+    "/api/": {
+      target: "http://127.0.0.1:7001",
+      secure: false,
+      pathRewrite: {
+        '^/api': ""
+      }
+    },
   }
 }
