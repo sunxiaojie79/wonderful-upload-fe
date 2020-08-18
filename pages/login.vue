@@ -2,19 +2,28 @@
     <div class="login-form">
 		<el-form :rules="rules">
 			<el-form-item props="email">
-			<span>
-				<i class="el-icon-mobile"></i>
-			</span>
-			<el-input placeholder="邮箱"></el-input>
+				<span>
+					<i class="el-icon-mobile"></i>
+				</span>
+				<el-input placeholder="邮箱"></el-input>
 			</el-form-item>
 		</el-form>
 
 		<el-form>
 			<el-form-item props="passwd">
-			<span>
-				<i class="el-icon-mobile"></i>
-			</span>
-			<el-input placeholder="密码"></el-input>
+				<span>
+					<i class="el-icon-mobile"></i>
+				</span>
+				<el-input placeholder="密码"></el-input>
+			</el-form-item>
+		</el-form>
+
+		<el-form>
+			<el-form-item props="captcha">
+				<div>
+					<img :src="captcha" alt="" @click="resetCaptcha">
+				</div>
+				<el-input placeholder="验证码"></el-input>
 			</el-form-item>
 		</el-form>
     </div>
@@ -26,11 +35,16 @@ export default {
     name: "",
     data() {
         return {
-			rules:{}
+			rules:{},
+			captcha: '/api/captcha'
 		}
     },
     components: {},
-    methods: {}
+    methods: {
+		resetCaptcha(){
+			this.captcha = '/api/captcha?_t=' + new Date().getTime()
+		}
+	}
 }
 </script>
 
