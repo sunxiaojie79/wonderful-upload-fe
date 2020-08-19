@@ -12,6 +12,7 @@
   "dependencies": {
     "@nuxtjs/proxy": "^2.0.1",
     "element-ui": "^2.13.2",
+    "md5": "^2.3.0",
     "nuxt": "^2.14.0",
     "svg-captcha": "^1.4.0"
   },
