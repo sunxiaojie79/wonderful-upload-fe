@@ -41,10 +41,10 @@ export default {
 	data() {
 		return {
 			form: {
-				email: '',
-				nickname: '',
-				passwd: '',
-				repasswd: '',
+				email: '297280911@qq.com',
+				nickname: '孙小杰',
+				passwd: '123456',
+				repasswd: '123456',
 				captcha: '',
 			},
 			rules:{
