@@ -91,7 +91,7 @@ export default {
 					}
 					let res = await this.$http.post('/user/register', params);
 					console.log('res', res)
-					if(res.data.code === 0){
+					if(res.code === 0){
 						this.$alert('注册成功', '成功', {
 							confirmButtonText:"去登录",
               callback:()=>{
