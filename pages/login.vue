@@ -1,48 +1,84 @@
 <template>
-    <div class="login-form">
-		<el-form :rules="rules">
-			<el-form-item props="email">
-				<span>
-					<i class="el-icon-mobile"></i>
-				</span>
-				<el-input placeholder="邮箱"></el-input>
+  <div class="login-container">
+		<el-form class="login-form" label-width="100px" :model="form" :rules="rules" ref="loginForm">
+			<el-form-item prop="email" label="邮箱">
+				<el-input v-model="form.email" placeholder="请输入邮箱"></el-input>
 			</el-form-item>
-		</el-form>
 
-		<el-form>
-			<el-form-item props="passwd">
-				<span>
-					<i class="el-icon-mobile"></i>
-				</span>
-				<el-input placeholder="密码"></el-input>
-			</el-form-item>
-		</el-form>
-
-		<el-form>
-			<el-form-item props="captcha">
-				<div>
-					<img :src="captcha" alt="" @click="resetCaptcha">
+			<el-form-item prop="captcha" label="验证码" class="captcha-container">
+				<div class="captcha">
+					<img :src="code.captcha" @click="resetCaptcha">
 				</div>
-				<el-input placeholder="验证码"></el-input>
+				<el-input v-model="form.captcha" placeholder="请输入验证码"></el-input>
 			</el-form-item>
+
+			<el-form-item prop="passwd" label="密码">
+				<el-input type="password" v-model="form.passwd" placeholder="请输入密码"></el-input>
+			</el-form-item>
+			
+			<el-form-item label=" ">
+				<!-- <button @clikc.prevent></button> -->
+				<el-button type="primary" @click.native.prevent="handleLogin" >登录</el-button>
+			</el-form-item>
+
 		</el-form>
-    </div>
+  </div>
 </template>
 
 <script type="text/ecmascript-6">
+import md5 from 'md5';
 export default {
-    layout: 'login',
-    name: "",
-    data() {
-        return {
-			rules:{},
-			captcha: '/api/captcha'
+	layout: 'login',
+	name: "",
+	data() {
+		return {
+			form: {
+				email: '297280911@qq.com',
+				passwd: '123456',
+				captcha: '',
+			},
+			rules:{
+				email: [
+					{ required: true, message: '请输入邮箱'},
+					{ type: 'email', message: '请输入正确的邮箱格式'},
+				],
+				captcha: [
+					{ required: true, message: '请输入验证码'},
+				],
+				passwd: [
+					{ required: true, pattern: /^[\w_-]{6,12}$/g, message: '请输入6~12位密码'},
+				],
+			},
+			code: {
+				captcha: '/api/captcha'
+			},
 		}
-    },
-    components: {},
-    methods: {
+	},
+	components: {},
+	methods: {
+		handleLogin(){
+			this.$refs.loginForm.validate(async valid => {
+				if(valid){
+					const { email, nickname, passwd, captcha } = this.form;
+					const params = {
+						email,
+						passwd: md5(passwd),
+						captcha,
+					}
+					let res = await this.$http.post('/user/login', params);
+					if(res.code === 0){
+						this.$message.success('登录成功')
+            setTimeout(() => {
+							this.$router.push("/")
+						}, 500);
+					}else{
+            this.$message.error(res.message)
+          }
+				}
+			})
+		},
 		resetCaptcha(){
-			this.captcha = '/api/captcha?_t=' + new Date().getTime()
+			this.code.captcha = '/api/captcha?_t=' + new Date().getTime()
 		}
 	}
 }

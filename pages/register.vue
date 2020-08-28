@@ -82,7 +82,6 @@ export default {
 			this.$refs.registerForm.validate(async valid => {
 				if(valid){
 					const { email, nickname, passwd, captcha } = this.form;
-					console.log('校验成功');
 					const params = {
 						email,
 						nickname,
@@ -90,7 +89,6 @@ export default {
 						captcha,
 					}
 					let res = await this.$http.post('/user/register', params);
-					console.log('res', res)
 					if(res.code === 0){
 						this.$alert('注册成功', '成功', {
 							confirmButtonText:"去登录",
