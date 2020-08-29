@@ -12,6 +12,13 @@
 				<el-input v-model="form.captcha" placeholder="请输入验证码"></el-input>
 			</el-form-item>
 
+			<el-form-item prop="emailcode" label="邮箱验证码" class="captcha-container">
+				<div class="captcha">
+					<el-button type="primary" :disabled="send.timer > 0" @click="sendEmailCode" >{{sendText}}</el-button>
+				</div>
+				<el-input v-model="form.captcha" placeholder="请输入验证码"></el-input>
+			</el-form-item>
+
 			<el-form-item prop="passwd" label="密码">
 				<el-input type="password" v-model="form.passwd" placeholder="请输入密码"></el-input>
 			</el-form-item>
@@ -27,11 +34,15 @@
 
 <script type="text/ecmascript-6">
 import md5 from 'md5';
+import { clearInterval } from 'timers';
 export default {
 	layout: 'login',
 	name: "",
 	data() {
 		return {
+			send:{
+				timer: 0,
+			},
 			form: {
 				email: '297280911@qq.com',
 				passwd: '123456',
@@ -45,6 +56,9 @@ export default {
 				captcha: [
 					{ required: true, message: '请输入验证码'},
 				],
+				emailcode:[
+          { required:true, message:"请输入邮箱验证码" },
+        ],
 				passwd: [
 					{ required: true, pattern: /^[\w_-]{6,12}$/g, message: '请输入6~12位密码'},
 				],
@@ -54,8 +68,25 @@ export default {
 			},
 		}
 	},
+	computed: {
+		sendText(){
+			if(this.send.timer > 0){
+				return `${this.send.timer}秒后发送`
+			}
+			return '发送'
+		}
+	},
 	components: {},
 	methods: {
+		sendEmailCode(){
+			this.send.timer = 10;
+			this.timer = setInterval(() => {
+				this.send.timer--;
+				if(this.send.timer === 0){
+					window.clearInterval(this.timer)
+				}
+			}, 1000);
+		},
 		handleLogin(){
 			this.$refs.loginForm.validate(async valid => {
 				if(valid){
