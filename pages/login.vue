@@ -16,7 +16,7 @@
 				<div class="captcha">
 					<el-button type="primary" :disabled="send.timer > 0" @click="sendEmailCode" >{{sendText}}</el-button>
 				</div>
-				<el-input v-model="form.captcha" placeholder="请输入验证码"></el-input>
+				<el-input v-model="form.emailcode" placeholder="请输入验证码"></el-input>
 			</el-form-item>
 
 			<el-form-item prop="passwd" label="密码">
@@ -90,7 +90,7 @@ export default {
 		handleLogin(){
 			this.$refs.loginForm.validate(async valid => {
 				if(valid){
-					const { email, nickname, passwd, captcha } = this.form;
+					const { email, passwd, captcha } = this.form;
 					const params = {
 						email,
 						passwd: md5(passwd),
