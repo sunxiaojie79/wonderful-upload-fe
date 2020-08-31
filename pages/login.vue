@@ -78,7 +78,8 @@ export default {
 	},
 	components: {},
 	methods: {
-		sendEmailCode(){
+		async sendEmailCode(){
+			await this.$http.get('/sendcode?email='+this.form.email);
 			this.send.timer = 10;
 			this.timer = setInterval(() => {
 				this.send.timer--;
@@ -90,11 +91,12 @@ export default {
 		handleLogin(){
 			this.$refs.loginForm.validate(async valid => {
 				if(valid){
-					const { email, passwd, captcha } = this.form;
+					const { email, passwd, captcha, emailcode } = this.form;
 					const params = {
 						email,
 						passwd: md5(passwd),
 						captcha,
+						emailcode,
 					}
 					let res = await this.$http.post('/user/login', params);
 					if(res.code === 0){
